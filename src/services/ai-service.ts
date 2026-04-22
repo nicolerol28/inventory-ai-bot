@@ -37,6 +37,10 @@ export class AIService {
     }
 
     const data = (await response.json()) as ChatResponse;
-    return data.answer ?? "No pude generar una respuesta.";
+    const answer = data.answer?.trim();
+    if (!answer) {
+      return "No pude generar una respuesta.";
+    }
+    return answer;
   }
 }
