@@ -15,7 +15,7 @@ export class AIService {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ message, threadId }),
+        body: JSON.stringify({ question: message, threadId }),
       });
     };
 
@@ -34,6 +34,6 @@ export class AIService {
     }
 
     const data = await response.json();
-    return data.response || "No pude generar una respuesta.";
+    return data.answer || "No pude generar una respuesta.";
   }
 }

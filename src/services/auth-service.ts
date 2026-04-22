@@ -17,7 +17,7 @@ export class AuthService {
   private async login(): Promise<void> {
     console.log("Authenticating with AI service...");
 
-    const response = await fetch(`${config.aiService.url}/auth/login`, {
+    const response = await fetch(`${config.aiService.url}/api/v1/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -36,9 +36,13 @@ export class AuthService {
     const data = await response.json();
     this.token = data.token;
 
-    const expiresInMs = (data.expiresIn || 3600) * 1000;
-    this.tokenExpiresAt = Date.now() + expiresInMs - 60_000;
-
+    // expiresAt es un timestamp ISO del backend Java
+    // Renovamos 1 minuto antes de que expire
+    if (data.expiresAt) {
+      this.tokenExpiresAt = new Date(data.expiresAt).getTime() - 60_000;
+    } else {
+      this.tokenExpiresAt = Date.now() + 3600 * 1000 - 60_000;
+    }
     console.log("Authenticated successfully");
   }
 
