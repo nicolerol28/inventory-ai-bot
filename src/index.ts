@@ -1,3 +1,4 @@
+import "dotenv/config";
 import { AuthService } from "./services/auth-service.js";
 import { AIService } from "./services/ai-service.js";
 import { createBot } from "./bot/bot.js";

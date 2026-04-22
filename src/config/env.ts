@@ -12,6 +12,7 @@ export const config = {
   },
   aiService: {
     url: requireEnv("AI_SERVICE_URL"),
+    backendUrl: requireEnv("BACKEND_URL"),
     email: requireEnv("AI_SERVICE_EMAIL"),
     password: requireEnv("AI_SERVICE_PASSWORD"),
   },

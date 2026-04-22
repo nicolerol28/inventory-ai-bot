@@ -1,23 +1,25 @@
 import { config } from "../config/env.js";
 
+interface LoginResponse {
+  token: string;
+  expiresAt?: string;
+}
+
 export class AuthService {
   private token: string | null = null;
   private tokenExpiresAt: number = 0;
 
-  // Token expiró o no existe, hacer login
   async getToken(): Promise<string> {
     if (this.token && Date.now() < this.tokenExpiresAt) {
       return this.token;
     }
-
-    await this.login();
-    return this.token!;
+    return this.login();
   }
 
-  private async login(): Promise<void> {
+  private async login(): Promise<string> {
     console.log("Authenticating with AI service...");
 
-    const response = await fetch(`${config.aiService.url}/api/v1/auth/login`, {
+    const response = await fetch(`${config.aiService.backendUrl}/api/v1/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -33,7 +35,12 @@ export class AuthService {
       );
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as LoginResponse;
+
+    if (!data.token) {
+      throw new Error("Authentication succeeded but no token was returned");
+    }
+
     this.token = data.token;
 
     // expiresAt es un timestamp ISO del backend Java
@@ -43,7 +50,9 @@ export class AuthService {
     } else {
       this.tokenExpiresAt = Date.now() + 3600 * 1000 - 60_000;
     }
+
     console.log("Authenticated successfully");
+    return this.token;
   }
 
   // Invalida el token actual, forzando un nuevo login en la próxima solicitud

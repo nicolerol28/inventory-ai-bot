@@ -1,15 +1,18 @@
 import { config } from "../config/env.js";
 import { AuthService } from "./auth-service.js";
 
+interface ChatResponse {
+  answer?: string;
+}
+
 export class AIService {
   constructor(private authService: AuthService) {}
 
-  // Envía un mensaje al agente y devuelve su respuesta
   async chat(message: string, threadId: string): Promise<string> {
     const makeRequest = async (): Promise<Response> => {
       const token = await this.authService.getToken();
 
-      return fetch(`${config.aiService.url}/chat`, {
+      return fetch(`${config.aiService.url}/api/v1/assistant/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +36,7 @@ export class AIService {
       throw new Error(`AI service error (${response.status}): ${errorText}`);
     }
 
-    const data = await response.json();
-    return data.answer || "No pude generar una respuesta.";
+    const data = (await response.json()) as ChatResponse;
+    return data.answer ?? "No pude generar una respuesta.";
   }
 }
