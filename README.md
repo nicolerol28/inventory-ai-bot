@@ -2,6 +2,8 @@
 
 Telegram bot that provides a natural-language interface to an inventory management system. Users ask questions in Spanish; the bot forwards them to an AI service and replies with the answer.
 
+> **Note:** This is a portfolio project. The bot may be unavailable as services are scaled to zero to manage hosting costs.
+
 ![Bot](public/bot.png)
 
 
