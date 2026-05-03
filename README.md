@@ -2,6 +2,9 @@
 
 Telegram bot that provides a natural-language interface to an inventory management system. Users ask questions in Spanish; the bot forwards them to an AI service and replies with the answer.
 
+![Bot](public/bot.png)
+
+
 ## Tech Stack
 
 | Layer | Technology |
