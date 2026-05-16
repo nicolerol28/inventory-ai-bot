@@ -2,8 +2,6 @@
 
 Telegram bot that provides a natural-language interface to an inventory management system. Users ask questions in Spanish; the bot forwards them to an AI service and replies with the answer.
 
-> **Note:** This is a portfolio project. The bot may be unavailable as services are scaled to zero to manage hosting costs.
-
 ![Bot](public/bot.png)
 
 
@@ -94,6 +92,7 @@ npm start       # runs dist/index.js
 ```bash
 docker build -t inventory-ai-bot .
 docker run --env-file .env inventory-ai-bot
+The bot is deployed self-hosted on Ubuntu Server 22.04 with Docker Compose.
 ```
 
 The image is based on `node:22-slim`. It runs `npm ci`, compiles with `npm run build`, and starts with `npm start`.
